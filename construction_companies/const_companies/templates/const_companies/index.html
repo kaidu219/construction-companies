@@ -1,2 +1,139 @@
-<p> привет, мир!</p>
-<div></div>
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="container" id="capstroy">
+    <header>
+        <h2>Объекты компании <strong>Capstroy</strong>!</h2>
+    </header>
+    <div class="row aln-center">
+        {% for object in CAPSTROY_INFO.values %}
+        <div class="col-4 col-6-medium col-12-small">
+
+            <!-- Feature -->
+                <section>
+                    <a href="{{ object.link | safe }}" class="image featured"><img src="{{ object.images }}" alt="" /></a>
+                    <header>
+                        <h3>{{ object.title }}</h3>
+                    </header>
+                    <p>{{ object.description |truncatewords:20 }}</p>
+                    <p>{{ object.address }}</p>
+                </section>
+                <ul class="actions">
+                    <li><a href="{{ object.link | safe }}" class="button icon fa-file">Подробнее</a></li>
+                </ul>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<hr> 
+
+<div class="container" id="imarat">
+    <header>
+        <h2>Объекты компании <strong>Имарат строй</strong>!</h2>
+    </header>
+    <div class="row aln-center">
+        {% for object in BUILDING_INFO.values %}
+        <div class="col-4 col-6-medium col-12-small">
+
+            <!-- Feature -->
+                <section>
+                    <a href="{{ object.link | safe }}" class="image featured"><img src="{{ object.image }}" alt="" /></a>
+                    <header>
+                        <h3>{{ object.title }}</h3>
+                    </header>
+                    <p>{{ object.description |truncatewords:20 }}</p>
+                    <p>{{ object.address }}</p>
+                </section>
+                <ul class="actions">
+                    <li><a href="{{ object.link | safe }}" class="button icon fa-file">Подробнее</a></li>
+                </ul>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<hr> 
+<div class="container" id="kggroup">
+    <header>
+        <h2>Объекты компании <strong>KG GROUP</strong>!</h2>
+    </header>
+    <div class="row aln-center">
+        {% for object in KGGROUP_INFO.values %}
+        <div class="col-4 col-6-medium col-12-small">
+
+            <!-- Feature -->
+                <section>
+                    <a href="{{ object.link | safe }}" class="image featured"><img src="{{ object.image }}" alt="" /></a>
+                    <header>
+                        <h3>{{ object.title }}</h3>
+                    </header>
+                    <p>{{ object.description |truncatewords:20 }}</p>
+                    <p>{{ object.address }}</p>
+                </section>
+                <ul class="actions">
+                    <li><a href="{{ object.link | safe }}" class="button icon fa-file">Подробнее</a></li>
+                </ul>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+<hr>
+<div class="container" id="ihlas">
+    <header>
+        <h2>Объекты компании <strong>Ихлас</strong>!</h2>
+    </header>
+    <div class="row aln-center">
+        {% for object in IHLAS_INFO.values %}
+        <div class="col-4 col-6-medium col-12-small">
+
+            <!-- Feature -->
+                <section>
+                    <a href="{{ object.link | safe }}" class="image featured"><img src="{{ object.image }}" alt="" /></a>
+                    <header>
+                        <h3>{{ object.title }}</h3>
+                    </header>
+                    <p>{{ object.description |truncatewords:20 }}</p>
+                    <p>{{ object.address }}</p>
+                </section>
+                <ul class="actions">
+                    <li><a href="{{ object.link | safe }}" class="button icon fa-file">Подробнее</a></li>
+                </ul>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+<hr>
+<div class="container" id="royal">
+    <header>
+        <h2>Объекты компании <strong>Royal</strong>!</h2>
+    </header>
+    <div class="row aln-center">
+        {% for object in ROYAL_INFO.values %}
+        <div class="col-4 col-6-medium col-12-small">
+
+            <!-- Feature -->
+                <section>
+                    <a href="{{ object.link | safe }}" class="image featured"><img src="{{ object.image }}" alt="" /></a>
+                    <header>
+                        <h3>{{ object.title }}</h3>
+                    </header>
+                    <p>{{ object.description |truncatewords:20 }}</p>
+                    <p>{{ object.address }}</p>
+                </section>
+                <ul class="actions">
+                    <li><a href="{{ object.link | safe }}" class="button icon fa-file">Подробнее</a></li>
+                </ul>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

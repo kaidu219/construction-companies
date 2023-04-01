@@ -1,31 +1,37 @@
+from functools import lru_cache
+import json
+import os
+from django.conf import settings
 import requests
 from bs4 import BeautifulSoup as bs
-import lxml
 
 def capstroy_parsing():
     url = 'https://www.capstroy.kg/'
     response = requests.get(url)
     soup = bs(response.text, 'lxml')
     objects = soup.find_all('div', class_='projectItemCard')
-    objects_list = [i for i in objects]
 
-    objects_dict = {}
+    object_dict = {}
     counter = 1
-    for i in objects_list:
-        temp_dict = {}
-        temp_dict['title'] = i.find('span', class_='projectTitle').text.strip()
-        temp_dict['description'] = i.find('span', class_='projectState').text.strip()
-        temp_dict['address'] = i.find('span', class_='projectStreet').text.strip()
-        image = soup.select_one('figure.projectItemCardImage')
-        temp_dict['image'] = image['style'].strip('background-image:url(')[:-1]
-        objects_dict[counter] = temp_dict
+    for i in objects:
+        temp_list = {}
+        temp_list['title'] = i.find('span', class_='projectTitle').text.strip()
+        temp_list['description'] = i.find('span', class_='projectState').text.strip()
+        temp_list['address'] = i.find('span', class_='projectStreet').text.strip()
+        image = i.find('figure', class_='projectItemCardImage')
+        temp_list['images'] = image['style'].strip('background-image:url(')[:-1]
+        temp_list['link'] = url + i.find('a')['href'][1:]
+        object_dict[counter] = temp_list
         counter += 1
-    return objects_dict
+    return {'CAPSTROY_INFO': object_dict}
 
 
-def imarat_parsing():
+def imarat_context():
     url_main = 'https://imaratstroy.kg'
-    urls = ["https://imaratstroy.kg/ru/zhilaja_nedvizhimost/zavershennye_obekty","https://imaratstroy.kg/ru/zhilaja_nedvizhimost/stroyaschiesya_obekty"]
+    urls = [
+        f"{url_main}/ru/zhilaja_nedvizhimost/zavershennye_obekty",
+        f"{url_main}/ru/zhilaja_nedvizhimost/stroyaschiesya_obekty",
+    ]
     object_dict = {}
     counter = 1
 
@@ -40,11 +46,12 @@ def imarat_parsing():
             temp_dict['title'] = object.find('h2').text
             temp_dict['description'] = object.find('div', class_='descr').text
             temp_dict['address'] = object.find('div', class_='col-lg-6 adres').text
-            temp_dict['image'] = url_main+object.find('img')['src']
-            temp_dict['link'] = url_main+object.find('a')['href']
+            temp_dict['image'] = url_main + object.find('img')['src']
+            temp_dict['link'] = url_main + object.find('a')['href']
             object_dict[counter] = temp_dict
             counter += 1
-    return object_dict
+    
+    return {'BUILDING_INFO': object_dict}
 
 
 def kggroup_parsing():
@@ -64,7 +71,7 @@ def kggroup_parsing():
         temp_dict['link'] = url_main + object.find('a')['href']
         dict_obj[counter] = temp_dict
         counter += 1
-    return dict_obj
+    return {'KGGROUP_INFO': dict_obj}
     
 
 def ihlas_parsing():
@@ -85,10 +92,10 @@ def ihlas_parsing():
         temp_dict['link'] = url+link_image['href']
         dict_obj[counter] = temp_dict
         counter += 1
-    return dict_obj
+    return {'IHLAS_INFO': dict_obj}
 
 
-def royal_parser():
+def royal_parsing():
     url = 'https://royal.kg/objects/'
     dict_obj = {}
     counter = 1
@@ -104,4 +111,13 @@ def royal_parser():
         temp_dict['link'] = object.find('a')['href']
         dict_obj[counter] = temp_dict
         counter += 1
-    return dict_obj
+    return {'ROYAL_INFO': dict_obj}
+
+def insert_data_file():
+    with open(os.path.join(settings.BASE_DIR, 'storage.json'), 'w') as storage:
+        context = {
+            **imarat_context(), **kggroup_parsing(),
+            **ihlas_parsing(), **royal_parsing(), 
+            **capstroy_parsing()
+        }
+        storage.write(json.dumps(context))
