@@ -11,6 +11,7 @@ def capstroy_parsing():
     soup = bs(response.text, 'lxml')
     objects = soup.find_all('div', class_='projectItemCard')
 
+    # парсим объекты компании
     object_dict = {}
     counter = 1
     for i in objects:
@@ -23,6 +24,32 @@ def capstroy_parsing():
         temp_list['link'] = url + i.find('a')['href'][1:]
         object_dict[counter] = temp_list
         counter += 1
+
+    # парсим контакты компании
+    contacts = {}
+    url_contacts = url + 'contacts'
+    response_c = requests.get(url_contacts)
+    soup_c = bs(response_c.text, 'lxml')
+    address = soup_c.find('div', class_='contacts_section_two_text_desc').text.strip()
+    contacts['address'] = address
+    number = soup_c.find('div', class_='contacts_section_two_text_desc_num').text.strip().split('\n\n\n')
+    contacts['number'] = number
+    schedule = soup_c.find_all('div', class_='contacts_section_two_text_desc_num')
+    schedule_l = [i.text.strip().split('\n') for i in schedule][1]
+    contacts['schedule'] = schedule_l
+    contacts['link'] = url
+    object_dict['contacts'] = contacts
+
+    # парсим информацию о компании
+    about_company = {}
+    response_a = requests.get(url+"about")
+    soup_a = bs(response_a.text, 'lxml')
+    title = soup_a.find('p', class_='title text-dark text-left top-in-view').text.strip()
+    text = soup_a.find('span', class_='about_section2_desc mt-4').text.strip()
+    about_company['title'] = title
+    about_company['text'] = text
+    object_dict['about_company'] = about_company
+
     return {'CAPSTROY_INFO': object_dict}
 
 
@@ -50,6 +77,28 @@ def imarat_context():
             temp_dict['link'] = url_main + object.find('a')['href']
             object_dict[counter] = temp_dict
             counter += 1
+    
+    # парсим контакты компании
+    response_c = requests.get(url_main)
+    soup_c = bs(response_c.text, 'lxml')
+    contact = {}
+    address = soup_c.find('div', class_='menu-phone').text.split('\n')[3]
+    contact['address'] = address
+    numbers = soup_c.find('div', class_='menu-phone').text.split('\n')[4]
+    contact['numbers'] = numbers
+    contact['link'] = url_main
+    object_dict['contact'] = contact
+
+    # парсим информацию о компании
+    url_about = 'https://imaratstroy.kg/ru/o_nashej_kompanii/o_nas'
+    response_a = requests.get(url_about)
+    soup_a = bs(response_a.text, 'lxml')
+    about_company = {}
+    title = soup_a.find('div', class_='cont').text.split('\n')[1][:44]
+    text = soup_a.find('div', class_='cont').text.split('\n')[1][44:]
+    about_company['title'] = title
+    about_company['text'] = text
+    object_dict['about_company'] = about_company
     
     return {'BUILDING_INFO': object_dict}
 

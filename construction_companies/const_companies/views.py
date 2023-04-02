@@ -14,8 +14,4 @@ def about(request):
     return render(request, 'const_companies/about.html', context)
 
 def contacts(request):
-    capstroy = capstroy_parsing()
-    context = {
-        'capstroy': capstroy
-    }
-    return render(request, 'const_companies/contacts.html', context)
+    return render(request, 'const_companies/contacts.html')

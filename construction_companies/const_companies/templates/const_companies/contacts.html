@@ -2,55 +2,52 @@
 
 {% load static %}
 {% block content %}
-<div class="container">
+
+<div class="container aln-center">
+    <div class="row aln-center">
     <header>
-        <h2>Gentlemen, behold! This is <strong>Strongly Typed</strong>!</h2>
+        <h2><strong>Контакты</strong> строительных компаний.</h2>
+    </header>
+</div>
+</div>
+<hr>
+<div class="container" id='capstroy'>
+    <header>
+        <h3><strong>Контакты cтрой компания </strong>"Капстрой"</h3>
     </header>
     <div class="row aln-center">
         <div class="col-4 col-6-medium col-12-small">
-
-            <!-- Feature -->
-                <section>
-                    <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-                    <header>
-                        <h3>Okay, so what is this?</h3>
-                    </header>
-                    <p>This is <strong>Strongly Typed</strong>, a free, fully responsive site template
-                    by <a href="http://html5up.net">HTML5 UP</a>. Free for personal and commercial use under the
-                    <a href="http://html5up.net/license">CCA 3.0 license</a>.</p>
-                </section>
-
-        </div>
-        <div class="col-4 col-6-medium col-12-small">
-
-            <!-- Feature -->
-                <section>
-                    <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-                    <header>
-                        <h3>Nice! What is HTML5 UP?</h3>
-                    </header>
-                    <p><a href="http://html5up.net">HTML5 UP</a> is a side project of <a href="http://twitter.com/ajlkn">AJ’s</a> (= me).
-                    I started it as a way to both test my responsive tools and sharpen up my coding
-                    and design skills a bit.</p>
-                </section>
-
-        </div>
-        <div class="col-4 col-6-medium col-12-small">
-
-            <!-- Feature -->
-                <section>
-                    <a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-                    <header>
-                        <h3>What's this built with?</h3>
-                    </header>
-                    <p><strong>Responsive Tools</strong> is a simple set of tools for building responsive
-                    sites and apps. All of my templates at <a href="http://html5up.net">HTML5 UP</a> are built using these tools.</p>
-                </section>
-
-        </div>
-        <div class="col-12">
+            <strong>Адрес:</strong>
+            <br>{{ CAPSTROY_INFO.contacts.address }}
+            <br><strong>Номер телефона:</strong>
+            {% for number in CAPSTROY_INFO.contacts.number %}
+            <br><a href='{{number}}'>{{number}}</a>
+            {% endfor %}
+            <br><strong>График работы:</strong>
+            {% for schedule in CAPSTROY_INFO.contacts.schedule %}
+            <br><a>{{schedule}}</a>
+            {% endfor %}
             <ul class="actions">
-                <li><a href="#" class="button icon fa-file">Tell Me More</a></li>
+                <li><a href="{{ CAPSTROY_INFO.contacts.link }}" class="button icon fa-file">Переход на сайт...</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container" id='imarat'>
+    <header>
+        <h3><strong>Контакты cтрой компания </strong>"Имарат "</h3>
+    </header>
+    <div class="row aln-center">
+        <div class="col-4 col-6-medium col-12-small">
+            <strong>Адрес:</strong>
+            <br>{{ BUILDING_INFO.contact.address }}
+            <br><strong>Номер телефона:</strong>
+            
+            <br><a href='{{ BUILDING_INFO.contact.numbers }}'>{{ BUILDING_INFO.contact.numbers }}</a>
+            
+            <ul class="actions">
+                <li><a href="{{ BUILDING_INFO.contact.link }}" class="button icon fa-file">Переход на сайт...</a></li>
             </ul>
         </div>
     </div>

@@ -8,7 +8,8 @@
         <h2>Объекты компании <strong>Capstroy</strong>!</h2>
     </header>
     <div class="row aln-center">
-        {% for object in CAPSTROY_INFO.values %}
+        {% for key, object in CAPSTROY_INFO.items %}
+        {% if key.isdigit %}
         <div class="col-4 col-6-medium col-12-small">
 
             <!-- Feature -->
@@ -25,6 +26,7 @@
                 </ul>
 
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
@@ -35,7 +37,8 @@
         <h2>Объекты компании <strong>Имарат строй</strong>!</h2>
     </header>
     <div class="row aln-center">
-        {% for object in BUILDING_INFO.values %}
+        {% for key, object in BUILDING_INFO.items %}
+        {% if key.isdigit %}
         <div class="col-4 col-6-medium col-12-small">
 
             <!-- Feature -->
@@ -52,6 +55,7 @@
                 </ul>
 
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

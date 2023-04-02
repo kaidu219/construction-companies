@@ -15,7 +15,7 @@
 					<div class="container">
 
 						<!-- Logo -->
-							<h1 id="logo"><a href="index.html">Строй компании Бишкека</a></h1>
+							<h1 id="logo"><a href="{% url 'home' %}">Строй компании Бишкека</a></h1>
 							<p>Какая-та фраза или слоган!!!</p>
 
 						<!-- Nav -->
@@ -34,21 +34,21 @@
 									<li>
                                         <a class="icon fa-cog" href="{% url 'about' %}"><span>О строй компаниях</span></a>
                                         <ul>
-											<li><a href="#">Капстрой</a></li>
-											<li><a href="#">Имарат строй</a></li>
-											<li><a href="#">KG Group</a></li>
-											<li><a href="#">Ихлас</a></li>
-                                            <li><a href="#">Royal</a></li>
+											<li><a href="{% url 'about' %}#capstroy">Капстрой</a></li>
+											<li><a href="{% url 'about' %}#imarat">Имарат строй</a></li>
+											<li><a href="{% url 'about' %}#kggroup">KG Group</a></li>
+											<li><a href="{% url 'about' %}#ihlas">Ихлас</a></li>
+                                            <li><a href="{% url 'about' %}#royal">Royal</a></li>
 										</ul>
                                     </li>
 									<li>
                                         <a class="icon fa-retweet" href="{% url 'contacts' %}"><span>Контакты строй компаний</span></a>
                                         <ul>
-											<li><a href="#">Капстрой</a></li>
-											<li><a href="#">Имарат строй</a></li>
-											<li><a href="#">KG Group</a></li>
-											<li><a href="#">Ихлас</a></li>
-                                            <li><a href="#">Royal</a></li>
+											<li><a href="{% url 'contacts' %}#capstroy">Капстрой</a></li>
+											<li><a href="{% url 'contacts' %}#imarat">Имарат строй</a></li>
+											<li><a href="{% url 'contacts' %}#kggroup">KG Group</a></li>
+											<li><a href="{% url 'contacts' %}#ihlas">Ихлас</a></li>
+                                            <li><a href="{% url 'contacts' %}#royal">Royal</a></li>
 										</ul>
                                     </li>
 									
