@@ -61,7 +61,7 @@ def imarat_context():
     ]
     object_dict = {}
     counter = 1
-
+    # парсим объекты компании
     for url in urls:
         response = requests.get(url)
         soup = bs(response.text, "lxml")
@@ -99,7 +99,7 @@ def imarat_context():
     about_company['title'] = title
     about_company['text'] = text
     object_dict['about_company'] = about_company
-    
+
     return {'BUILDING_INFO': object_dict}
 
 
@@ -109,6 +109,7 @@ def kggroup_parsing():
     dict_obj = {}
     counter = 1
 
+    # парсим объекты компании
     response = requests.get(url)
     soup = bs(response.text, 'lxml')
     objects = soup.find_all('div', class_='col-xl-3 col-lg-3 col-md-6')
@@ -120,15 +121,44 @@ def kggroup_parsing():
         temp_dict['link'] = url_main + object.find('a')['href']
         dict_obj[counter] = temp_dict
         counter += 1
+
+    # парсим контакты компании
+    url_cont = 'http://kg-group.kg/#contacts'
+    response_c = requests.get(url_cont)
+    soup_c = bs(response_c.text, 'lxml')
+    contact = {}
+    address = soup_c.find('div', class_='contact_info').text.strip().split('\n')[0]
+    number = soup_c.find('div', class_='contact_info').text.strip().split('\n')[1:-1]
+    numbers = [i.lstrip() for i in number]
+    contact['address'] = address
+    contact['numbers'] = numbers
+    contact['link'] = url_main
+    dict_obj['contact'] = contact
+
+    # парсим информации о компании
+    url_about = 'http://kg-group.kg/#video'
+    response_a = requests.get(url_about)
+    soup_a = bs(response_a.text, 'lxml')
+    about = {}
+    title = soup_a.find('section', id='video').text.strip().split('\n')[0]
+    text_s = soup_a.find('section', id='video').text.strip().split('\n')[6:-56]
+    text = (', ').join([i.strip() for i in text_s])
+    about['title'] = title
+    about['text'] = text
+
+    dict_obj['about'] = about
+
     return {'KGGROUP_INFO': dict_obj}
     
 
 def ihlas_parsing():
+    url_main = 'https://ihlas.kg/'
     url = 'https://ihlas.kg/portfolio/'
     response = requests.get(url)
     soup = bs(response.text, 'lxml')
     builders = soup.find_all('article')
 
+    # парсим все объекты компании
     dict_obj = {}
     counter = 1
     for object in builders:
@@ -141,10 +171,36 @@ def ihlas_parsing():
         temp_dict['link'] = url+link_image['href']
         dict_obj[counter] = temp_dict
         counter += 1
+    
+    # парсим контакты компании
+    url_contact = url_main + 'contact/'
+    response_c = requests.get(url_contact)
+    soup_c = bs(response_c.text, 'lxml')
+    contact = {}
+    address_l = soup_c.find('address').text.strip().split('\n')
+    address = (' ').join([i.strip() for i in address_l])
+    number = soup_c.find_all('a', class_='phone-link teltex')
+    numbers = [i.get('href')[4:] for i in number]
+    contact['address'] = address
+    contact['number'] = numbers
+    contact['link'] = url_main
+    dict_obj['contact'] = contact
+
+    # парсим информацию о компании 
+    url_about = url_main + 'about/'
+    responce_a = requests.get(url_about)
+    soup_a = bs(responce_a.text, 'lxml')
+    about = {}
+    general = soup_a.find_all('p')
+    about['title'] = general[1].text
+    about['text'] = general[2].text
+    dict_obj['about'] = about
+
     return {'IHLAS_INFO': dict_obj}
 
 
 def royal_parsing():
+    url_main = 'https://royal.kg/'
     url = 'https://royal.kg/objects/'
     dict_obj = {}
     counter = 1
@@ -160,6 +216,27 @@ def royal_parsing():
         temp_dict['link'] = object.find('a')['href']
         dict_obj[counter] = temp_dict
         counter += 1
+
+    # парсим контакты компании
+    response_c = requests.get(url_main)
+    soup_c = bs(response_c.text, 'lxml')
+    contact = {}
+    cont = soup_c.find('ul', class_='right').text.strip().split('\n')
+    address = cont[0]
+    number = cont[1:-1]
+    contact['address'] = cont[0]
+    contact['number'] = cont[1:-1]
+    contact['link'] = url_main
+    dict_obj['contact'] = contact
+
+    # парсим информацию о компании
+    url_about = url_main + 'about-us/'
+    response_a = requests.get(url_about)
+    soup_a = bs(response_a.text, 'lxml')
+    about = {}
+    text = soup_a.find('div', class_='description').text.strip()
+    about['text'] = text
+    dict_obj['about'] = about
     return {'ROYAL_INFO': dict_obj}
 
 def insert_data_file():
