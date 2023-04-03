@@ -50,6 +50,10 @@ def capstroy_parsing():
     about_company['text'] = text
     object_dict['about_company'] = about_company
 
+    # считаем кол-во объектов
+   
+    object_dict['counter'] = counter_objects(object_dict)
+
     return {'CAPSTROY_INFO': object_dict}
 
 
@@ -100,6 +104,9 @@ def imarat_context():
     about_company['text'] = text
     object_dict['about_company'] = about_company
 
+    # считаем кол-во объектов
+    object_dict['counter'] = counter_objects(object_dict)
+
     return {'BUILDING_INFO': object_dict}
 
 
@@ -145,8 +152,10 @@ def kggroup_parsing():
     text = (', ').join([i.strip() for i in text_s])
     about['title'] = title
     about['text'] = text
-
     dict_obj['about'] = about
+
+    # считаем кол-во объектов
+    dict_obj['counter'] = counter_objects(dict_obj)
 
     return {'KGGROUP_INFO': dict_obj}
     
@@ -196,6 +205,9 @@ def ihlas_parsing():
     about['text'] = general[2].text
     dict_obj['about'] = about
 
+    # считаем кол-во объектов
+    dict_obj['counter'] = counter_objects(dict_obj)
+
     return {'IHLAS_INFO': dict_obj}
 
 
@@ -222,8 +234,6 @@ def royal_parsing():
     soup_c = bs(response_c.text, 'lxml')
     contact = {}
     cont = soup_c.find('ul', class_='right').text.strip().split('\n')
-    address = cont[0]
-    number = cont[1:-1]
     contact['address'] = cont[0]
     contact['number'] = cont[1:-1]
     contact['link'] = url_main
@@ -237,6 +247,10 @@ def royal_parsing():
     text = soup_a.find('div', class_='description').text.strip()
     about['text'] = text
     dict_obj['about'] = about
+
+    # считаем кол-во объектов
+    dict_obj['counter'] = counter_objects(dict_obj)
+
     return {'ROYAL_INFO': dict_obj}
 
 def insert_data_file():
@@ -247,3 +261,10 @@ def insert_data_file():
             **capstroy_parsing()
         }
         storage.write(json.dumps(context))
+
+def counter_objects(global_dict: dict)->int:
+    counter = 0
+    for k in global_dict.keys():
+        if str(k).isdigit():
+            counter += 1
+    return counter
