@@ -6,7 +6,7 @@
 
 bash
 
-git clone https://github.com/yourusername/yourproject.git
+git clone https://github.com/kaidu219/construction-companies.git
 
 Затем установите все зависимости, указанные в файле requirements.txt, используя следующую команду:
 
