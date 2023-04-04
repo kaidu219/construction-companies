@@ -253,6 +253,13 @@ def royal_parsing():
 
     return {'ROYAL_INFO': dict_obj}
 
+def counter_objects(global_dict: dict)->int:
+    counter = 0
+    for k in global_dict.keys():
+        if str(k).isdigit():
+            counter += 1
+    return counter
+
 def insert_data_file():
     with open(os.path.join(settings.BASE_DIR, 'storage.json'), 'w') as storage:
         context = {
@@ -262,9 +269,3 @@ def insert_data_file():
         }
         storage.write(json.dumps(context))
 
-def counter_objects(global_dict: dict)->int:
-    counter = 0
-    for k in global_dict.keys():
-        if str(k).isdigit():
-            counter += 1
-    return counter

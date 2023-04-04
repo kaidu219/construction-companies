@@ -13,16 +13,14 @@ class ConstCompaniesConfig(AppConfig):
 
     def ready(self) -> None:
         ctx = super().ready()
-        
-
         if not os.path.exists(os.path.join(settings.BASE_DIR, 'storage.json')):
             insert_data_file()
-        
+        return ctx
         # schedule.every(3600).seconds.do(insert_data_file)
         # while True:
         #     schedule.run_pending()
-        #     time.sleep(1)
+         
 
-        return ctx
+        
     
   
